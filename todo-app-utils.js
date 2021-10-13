@@ -89,3 +89,7 @@ const renderTodos = function (todos, filters) {
     document.querySelector("#todos").appendChild(createNoteDOM(todo));
   });
 };
+
+const generateLastEditMsg = (timestamp) => {
+  return `Edited ${moment(timestamp).fromNow()}.`;
+};

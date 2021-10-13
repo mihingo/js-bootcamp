@@ -1,4 +1,4 @@
-const todos = getCachedTodos();
+let todos = getCachedTodos();
 
 const filters = {
   searchText: "",
@@ -30,3 +30,10 @@ document
     filters.hideCompleted = e.target.checked;
     renderTodos(todos, filters);
   });
+
+window.addEventListener("storage", (e) => {
+  if (e.key === "todos") {
+    todos = JSON.parse(e.newValue);
+  }
+  renderTodos(todos, filters);
+});

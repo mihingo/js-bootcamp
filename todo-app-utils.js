@@ -66,7 +66,7 @@ const createNoteDOM = (todo) => {
 
 //Render todo App
 const renderTodos = function (todos, filters) {
-  const filteredTodos = todos.filter(function (todo) {
+  const filteredTodos = todos.filter((todo) => {
     const searchTextMatch = todo.text
       .toLowerCase()
       .includes(filters.searchText.toLowerCase());

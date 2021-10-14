@@ -3,9 +3,7 @@ const todoButtonRemove = document.querySelector("#remove-todo");
 const todoLastEdit = document.querySelector("#todo-edit-time");
 const todoId = location.hash.substring(1);
 let todos = getCachedTodos();
-let todo = todos.find((todo) => {
-  return todo.id === todoId;
-});
+let todo = todos.find((todo) => todo.id === todoId);
 if (todo === undefined) {
   location.assign("./index.html");
 }

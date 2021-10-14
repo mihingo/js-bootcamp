@@ -14,18 +14,14 @@ const addCacheTodo = (todos) => {
 };
 //Remove a todo from the localStorage
 const clearTodoCache = (id) => {
-  const todoIndex = todos.findIndex((todo) => {
-    return todo.id === id;
-  });
+  const todoIndex = todos.findIndex((todo) => todo.id === id);
   if (todoIndex > -1) {
     todos.splice(todoIndex, 1);
   }
 };
 //Toggle the completed value of todo
 const toggleTodo = (id) => {
-  const todo = todos.find((todo) => {
-    return todo.id === id;
-  });
+  const todo = todos.find((todo) =>todo.id === id;);
   if (todo !== undefined) {
     todo.completed = !todo.completed;
   }
@@ -73,7 +69,6 @@ filterBy.addEventListener("change", (e) => {
 
 //Sort the Todo by 3 filters from drop-down
 const sortTodos = (todos, sortBy) => {
-  console.log(sortBy);
   if (sortBy === "byEdited") {
     return todos.sort((a, b) => {
       if (a.updatedAt > b.updatedAt) {

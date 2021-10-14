@@ -1,9 +1,9 @@
 //Read existing data from localStorage
 const getCachedTodos = () => {
   const todosJSON = localStorage.getItem("todos");
-  if (todosJSON !== null) {
-    return JSON.parse(todosJSON);
-  } else {
+  try {
+    return todosJSON ? JSON.parse(todosJSON) : [];
+  } catch (e) {
     return [];
   }
 };
@@ -21,8 +21,8 @@ const clearTodoCache = (id) => {
 };
 //Toggle the completed value of todo
 const toggleTodo = (id) => {
-  const todo = todos.find((todo) =>todo.id === id;);
-  if (todo !== undefined) {
+  const todo = todos.find((todo) => todo.id === id);
+  if (todo) {
     todo.completed = !todo.completed;
   }
 };
@@ -42,11 +42,8 @@ const createTodoDOM = (todo) => {
     renderTodos(todos, filters);
   });
   //Add the todo title tex
-  if (todo.text.length > 0) {
-    todoEl.textContent = todo.text;
-  } else {
-    todoEl.textContent = "Empty todo item";
-  }
+  todoEl.textContent = todo.text.length > 0 ? todo.text : "Empty todo item";
+
   //Add remove button
   removeTodo.textContent = "x";
   div.appendChild(removeTodo);
@@ -58,6 +55,11 @@ const createTodoDOM = (todo) => {
   todoEl.setAttribute("href", `./edit.html#${todo.id}`);
   div.appendChild(todoEl);
   return div;
+};
+
+//Create the last edited string msg
+const generateLastEditMsg = (timestamp) => {
+  return `edited ${moment(timestamp).fromNow()}.`;
 };
 
 //Add event for the filter drop-down change
@@ -127,9 +129,4 @@ const renderTodos = function (todos, filters) {
   filteredTodos.forEach(function (todo) {
     document.querySelector("#todos").appendChild(createTodoDOM(todo));
   });
-};
-
-//Create the last edited string msg
-const generateLastEditMsg = (timestamp) => {
-  return `edited ${moment(timestamp).fromNow()}.`;
 };

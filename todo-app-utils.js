@@ -63,9 +63,23 @@ const createNoteDOM = (todo) => {
   div.appendChild(todoEl);
   return div;
 };
+const sortTodos = (todos, sortBy) => {
+  if (sortBy === "byEdited") {
+    return todos.sort((a, b) => {
+      if (a.updatedAt > b.updatedAt) {
+        return -1;
+      } else if (a.updatedAt < b.updatedAt) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+  }
+};
 
 //Render todo App
 const renderTodos = function (todos, filters) {
+  todos = sortTodos(todos, filters.sortBy);
   const filteredTodos = todos.filter((todo) => {
     const searchTextMatch = todo.text
       .toLowerCase()
@@ -96,5 +110,5 @@ const generateLastEditMsg = (timestamp) => {
 
 const filterBy = document.querySelector("#filter-by");
 filterBy.addEventListener("change", (e) => {
-  console.log(e.target.value);
+  filters.sortBy = e.target.value;
 });

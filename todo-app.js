@@ -3,6 +3,7 @@ let todos = getCachedTodos();
 const filters = {
   searchText: "",
   hideCompleted: false,
+  sortBy: "byEdited",
 };
 
 renderTodos(todos, filters);

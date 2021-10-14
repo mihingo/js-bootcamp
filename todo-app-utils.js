@@ -64,12 +64,14 @@ const createTodoDOM = (todo) => {
   return div;
 };
 
+//Add event for the filter drop-down change
 const filterBy = document.querySelector("#filter-by");
 filterBy.addEventListener("change", (e) => {
   filters.sortBy = e.target.value;
   renderTodos(todos, filters);
 });
 
+//Sort the Todo by 3 filters from drop-down
 const sortTodos = (todos, sortBy) => {
   console.log(sortBy);
   if (sortBy === "byEdited") {
@@ -132,6 +134,7 @@ const renderTodos = function (todos, filters) {
   });
 };
 
+//Create the last edited string msg
 const generateLastEditMsg = (timestamp) => {
   return `edited ${moment(timestamp).fromNow()}.`;
 };

@@ -31,7 +31,7 @@ const toggleTodo = (id) => {
   }
 };
 //Genarate DOM struct for todos
-const createNoteDOM = (todo) => {
+const createTodoDOM = (todo) => {
   const div = document.createElement("div");
   const todoEl = document.createElement("a");
   const completeTodo = document.createElement("input");
@@ -63,12 +63,40 @@ const createNoteDOM = (todo) => {
   div.appendChild(todoEl);
   return div;
 };
+
+const filterBy = document.querySelector("#filter-by");
+filterBy.addEventListener("change", (e) => {
+  filters.sortBy = e.target.value;
+  renderTodos(todos, filters);
+});
+
 const sortTodos = (todos, sortBy) => {
+  console.log(sortBy);
   if (sortBy === "byEdited") {
     return todos.sort((a, b) => {
       if (a.updatedAt > b.updatedAt) {
         return -1;
       } else if (a.updatedAt < b.updatedAt) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+  } else if (sortBy === "byCreated") {
+    return todos.sort((a, b) => {
+      if (a.createdAt > b.createdAt) {
+        return -1;
+      } else if (a.createdAt < b.createdAt) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+  } else if (sortBy === "alphabetically") {
+    return todos.sort((a, b) => {
+      if (a.text.toLowerCase() < b.text.toLowerCase()) {
+        return -1;
+      } else if (a.text.toLowerCase() > b.text.toLowerCase()) {
         return 1;
       } else {
         return 0;
@@ -100,15 +128,10 @@ const renderTodos = function (todos, filters) {
   document.querySelector("#todos").appendChild(summary);
 
   filteredTodos.forEach(function (todo) {
-    document.querySelector("#todos").appendChild(createNoteDOM(todo));
+    document.querySelector("#todos").appendChild(createTodoDOM(todo));
   });
 };
 
 const generateLastEditMsg = (timestamp) => {
   return `edited ${moment(timestamp).fromNow()}.`;
 };
-
-const filterBy = document.querySelector("#filter-by");
-filterBy.addEventListener("change", (e) => {
-  filters.sortBy = e.target.value;
-});

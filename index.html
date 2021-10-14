@@ -5,6 +5,11 @@
     <body>
         <h1>Todos</h1>
         <input id="search-text" type="text" placeholder="Filter todos">
+        <select id="filter-by">
+            <option value="byEdited">Sort by last edited</option>
+            <option value="byCreated">Sort by recently created</option>
+            <option value="alphabetically">Sort alphabetically</option>
+        </select>
         <label>
             <input type="checkbox" id="hide-completed"> Hide completed
         </label>

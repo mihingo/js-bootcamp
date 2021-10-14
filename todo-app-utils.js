@@ -91,5 +91,10 @@ const renderTodos = function (todos, filters) {
 };
 
 const generateLastEditMsg = (timestamp) => {
-  return `Edited ${moment(timestamp).fromNow()}.`;
+  return `edited ${moment(timestamp).fromNow()}.`;
 };
+
+const filterBy = document.querySelector("#filter-by");
+filterBy.addEventListener("change", (e) => {
+  console.log(e.target.value);
+});

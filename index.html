@@ -1,27 +1,43 @@
 <!DOCTYPE html>
 
 <html>
-    <head></head>
+    <head>
+        <title>My To-do</title>
+        <link href="/styles/styles.css" rel="stylesheet">
+        <link href="/img/to-do.png" rel="icon">
+    </head>
     <body>
-        <h1>Todos</h1>
-        <input id="search-text" type="text" placeholder="Filter todos">
-        <select id="filter-by">
-            <option value="byEdited">Sort by last edited</option>
-            <option value="byCreated">Sort by recently created</option>
-            <option value="alphabetically">Sort alphabetically</option>
-        </select>
-        <label>
-            <input type="checkbox" id="hide-completed"> Hide completed
-        </label>
+        <div class="header">
+            <div class="container">
+                <h1 class="title">My To-do App</h1>
+                <h2 class="subtitle">My list of to-do items</h2>
+            </div>
+        </div>
+        <div class="filters">
+            <div class="filters-container">
+                <input class="input"  id="search-text" type="text" placeholder="Filter todos">
+                <label class="checkbox">
+                    <input type="checkbox" id="hide-completed"> Hide completed
+                </label>
+                <select class="dropdown"  id="filter-by">
+                    <option value="byEdited">Sort by last edited</option>
+                    <option value="byCreated">Sort by recently created</option>
+                    <option value="alphabetically">Sort alphabetically</option>
+                </select>
+            </div>
+        </div>
+        <div class="container">
         <div id="todos">
         </div>
         <form id="new-todo">
-            <input type="text" placeholder="Something to do" name="text">
-            <button>Add Todo</button>
+            <input class="input" type="text" placeholder="Something to do" name="text">
+            <button class="button">Add Todo</button>
         </form>
+    </div>
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
-        <script src="todo-app-utils.js"></script>
-        <script src="todo-app.js"></script>
+        <script src="scripts/todo-app-utils.js"></script>
+        <script src="scripts/todo-app.js"></script>
     </body>
 </html>

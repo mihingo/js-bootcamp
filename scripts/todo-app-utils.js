@@ -26,35 +26,57 @@ const toggleTodo = (id) => {
     todo.completed = !todo.completed;
   }
 };
-//Genarate DOM struct for todos
+//Generate DOM struct for todos
 const createTodoDOM = (todo) => {
-  const div = document.createElement("div");
-  const todoEl = document.createElement("a");
-  const completeTodo = document.createElement("input");
-  const removeTodo = document.createElement("button");
-  //Add the done checkbox
-  completeTodo.setAttribute("type", "checkbox");
-  completeTodo.checked = todo.completed;
-  div.appendChild(completeTodo);
-  completeTodo.addEventListener("change", () => {
+  const todoEl = document.createElement("label");
+  const containerEl = document.createElement("div");
+  const checkbox = document.createElement("input");
+  const todoText = document.createElement("span");
+  const buttonDiv = document.createElement("div");
+  const removeButton = document.createElement("button");
+  const editButton = document.createElement("button");
+
+  // Setup todo checkbox
+  checkbox.setAttribute("type", "checkbox");
+  checkbox.checked = todo.completed;
+  containerEl.appendChild(checkbox);
+  checkbox.addEventListener("change", () => {
     toggleTodo(todo.id);
     addCacheTodo(todos);
     renderTodos(todos, filters);
   });
-  //Add the todo title tex
-  todoEl.textContent = todo.text.length > 0 ? todo.text : "Empty todo item";
 
-  //Add remove button
-  removeTodo.textContent = "x";
-  div.appendChild(removeTodo);
-  removeTodo.addEventListener("click", () => {
+  // Setup the todo text
+  todoText.textContent = todo.text;
+  containerEl.appendChild(todoText);
+
+  // Setup container
+  todoEl.classList.add("list-item");
+  containerEl.classList.add("list-item__container");
+  todoEl.appendChild(containerEl);
+
+  // Setup the button div
+  buttonDiv.classList.add("button-div");
+  todoEl.appendChild(buttonDiv);
+
+  // Setup the edit button
+  editButton.textContent = "edit";
+  editButton.classList.add("button", "button--text", "edit-btn");
+  buttonDiv.appendChild(editButton);
+  editButton.addEventListener("click", () => {
+    location.assign(`edit.html#${todo.id}`);
+  });
+  // Setup the remove button
+  removeButton.textContent = "remove";
+  removeButton.classList.add("button", "button--text");
+  buttonDiv.appendChild(removeButton);
+  removeButton.addEventListener("click", () => {
     clearTodoCache(todo.id);
     addCacheTodo(todos);
     renderTodos(todos, filters);
   });
-  todoEl.setAttribute("href", `./edit.html#${todo.id}`);
-  div.appendChild(todoEl);
-  return div;
+
+  return todoEl;
 };
 
 //Create the last edited string msg
@@ -116,17 +138,29 @@ const renderTodos = function (todos, filters) {
     return searchTextMatch && hideCompletedMatch;
   });
 
-  const incompleteTodos = filteredTodos.filter(function (todo) {
-    return !todo.completed;
-  });
+  const incompleteTodos = filteredTodos.filter((todo) => !todo.completed);
 
-  document.querySelector("#todos").innerHTML = "";
+  const todoEl = document.querySelector("#todos");
+  todoEl.innerHTML = "";
+  todoEl.appendChild(generateSummaryDOM(incompleteTodos));
 
+  if (filteredTodos.length > 0) {
+    filteredTodos.forEach(function (todo) {
+      todoEl.appendChild(createTodoDOM(todo));
+    });
+  } else {
+    const emptyTodoEl = document.createElement("p");
+    emptyTodoEl.classList.add("empty-message");
+    emptyTodoEl.textContent = "You have no pending tasks, enjoy your day";
+    todoEl.appendChild(emptyTodoEl);
+  }
+};
+
+// Get the DOM elements for list summary
+const generateSummaryDOM = (incompleteTodos) => {
   const summary = document.createElement("h2");
-  summary.textContent = `You have ${incompleteTodos.length} todos left`;
-  document.querySelector("#todos").appendChild(summary);
-
-  filteredTodos.forEach(function (todo) {
-    document.querySelector("#todos").appendChild(createTodoDOM(todo));
-  });
+  const plural = incompleteTodos.length === 1 ? "" : "s";
+  summary.classList.add("list-title");
+  summary.textContent = `You have ${incompleteTodos.length} todo${plural} left`;
+  return summary;
 };
